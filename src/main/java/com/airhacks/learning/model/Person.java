@@ -7,9 +7,14 @@ import javax.persistence.*;
  * @created 06/05/2020
  */
 @Entity
-@NamedQuery(name = "all", query = "SELECT p FROM Person p")
-@NamedQuery(name = "findById", query = "SELECT p FROM Person p WHERE p.id = :id")
-public class Person {
+@NamedQueries({
+        @NamedQuery(name = Person.NAMED_QUERY_PREFIX + "-all", query = "SELECT p FROM Person p"),
+        @NamedQuery(name = Person.NAMED_QUERY_PREFIX + "-findById", query = "SELECT p FROM Person p WHERE p.id = :id"),
+        @NamedQuery(name = Person.NAMED_QUERY_PREFIX + "-deleteById", query = "DELETE FROM Person p WHERE p.id = :id")
+})
+public class Person implements BaseEntity {
+
+    public static final String NAMED_QUERY_PREFIX = "Person";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,8 +29,14 @@ public class Person {
         this.name = name;
     }
 
+    @Override
     public long getId() {
         return id;
+    }
+
+    @Override
+    public String getNamedQueryPrefix() {
+        return NAMED_QUERY_PREFIX;
     }
 
     public void setId(long id) {
