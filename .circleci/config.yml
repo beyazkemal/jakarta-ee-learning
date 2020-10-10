@@ -53,6 +53,8 @@ jobs:
 
   push-docker-hub:
     executor: docker-publisher
+    context:
+      - Docker
     steps:
       - checkout
       - attach_workspace:
@@ -62,7 +64,7 @@ jobs:
           set +o pipefail
           docker load -i ./image.tar | true
       - run: |
-          docker login
+          echo $DOCKERHUB_PASSWORD | docker login --username $DOCKERHUB_USER --password-stdin
           docker push beyazkemal/jakarta-ee-learning:latest
 
 workflows:
