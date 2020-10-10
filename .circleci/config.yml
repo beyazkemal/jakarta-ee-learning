@@ -62,6 +62,9 @@ jobs:
           at: ./
       - setup_remote_docker
       - run: ls -ann
+      - run: |
+          set +o pipefail
+          docker load -i ./image.tar | true
       - run:
           name: Push Docker Image to Hub
           command: docker push beyazkemal/jakarta-ee-learning:latest
