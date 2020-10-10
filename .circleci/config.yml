@@ -61,7 +61,9 @@ jobs:
       - run: |
           set +o pipefail
           docker load -i ./image.tar | true
-      - run: docker push beyazkemal/jakarta-ee-learning:latest
+      - run: |
+          docker login
+          docker push beyazkemal/jakarta-ee-learning:latest
 
 workflows:
   version: 2
