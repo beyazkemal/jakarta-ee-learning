@@ -67,9 +67,9 @@ jobs:
       - run: |
           set +o pipefail
           docker load -i ./image.tar | true
-      - run:
-          name: Push Docker Image to Hub
-          command: docker push beyazkemal/jakarta-ee-learning:latest
+      - run: |
+          docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
+          docker push beyazkemal/jakarta-ee-learning:latest
 
 workflows:
   version: 2
