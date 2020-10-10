@@ -9,6 +9,8 @@ jobs:
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     steps:
       - checkout
+      - run: ls -ann
+      - run: echo 'Hello Test!'
       - run: sudo ./mvnw test
 
   build:
@@ -19,7 +21,10 @@ jobs:
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     steps:
       - checkout
-      - run: sudo ./mvnw -Dmaven.test.skip=true package
+      - run: ls -ann
+      - run: echo 'Hello!'
+      - run: ./mvnw -Dmaven.test.skip=true package
+
 
 workflows:
   version: 2
