@@ -67,6 +67,7 @@ jobs:
       - run: |
           set +o pipefail
           docker load -i ./image.tar | true
+      - run: echo $DOCKERHUB_USER
       - run: |
           docker login --username $DOCKERHUB_USER
           docker push beyazkemal/jakarta-ee-learning:latest
