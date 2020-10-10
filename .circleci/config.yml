@@ -61,10 +61,7 @@ jobs:
       - run: |
           set +o pipefail
           docker load -i ./image.tar | true
-      - run: echo "$DOCKERHUB_USER"
-      - run: |
-          docker login --username beyazkemal
-          docker push beyazkemal/jakarta-ee-learning:latest
+      - run: docker push beyazkemal/jakarta-ee-learning:latest
 
 workflows:
   version: 2
