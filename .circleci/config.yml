@@ -14,9 +14,6 @@ jobs:
   test:
     docker:
       - image: adoptopenjdk/maven-openjdk11
-        auth:
-          username: $DOCKERHUB_USER
-          password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
       - run:
@@ -26,9 +23,6 @@ jobs:
   build:
     docker:
       - image: adoptopenjdk/maven-openjdk11
-        auth:
-          username: $DOCKERHUB_USER
-          password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
       - run:
@@ -69,7 +63,7 @@ jobs:
           docker load -i ./image.tar | true
       - run: echo "$DOCKERHUB_USER"
       - run: |
-          docker login --username $DOCKERHUB_USER
+          docker login --username beyazkemal
           docker push beyazkemal/jakarta-ee-learning:latest
 
 workflows:
