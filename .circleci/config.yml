@@ -38,10 +38,10 @@ jobs:
     executor: docker-publisher
     steps:
       - checkout
-      - setup_remote_docker
       - attach_workspace:
           at: ./target
       - run: ls -ann
+      - setup_remote_docker
       - run: docker build -t $IMAGE_NAME:latest .
       - run:
           name: Archive Docker image
