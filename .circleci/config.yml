@@ -51,6 +51,12 @@ jobs:
           paths:
             - ./image.tar
 
+  push-docker-hub:
+    executor: docker-publisher
+    steps:
+      - checkout
+      - run: ls -ann
+
 workflows:
   version: 2
 
