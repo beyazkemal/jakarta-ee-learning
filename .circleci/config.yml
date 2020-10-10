@@ -41,6 +41,8 @@ jobs:
       - attach_workspace:
           at: ./target
       - run: ls -ann
+      - run: cd target && ls -ann
+      - run: cd ..
       - setup_remote_docker
       - run: docker build -t $IMAGE_NAME:latest .
       - run:
