@@ -32,7 +32,7 @@ jobs:
       - persist_to_workspace:
          root: ./
          paths:
-           - target/
+           - target/*.jar
 
   build-docker-image:
     executor: docker-publisher
