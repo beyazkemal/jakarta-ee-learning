@@ -60,6 +60,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: ./
+      - setup_remote_docker
       - run: ls -ann
       - run:
           name: Push Docker Image to Hub
