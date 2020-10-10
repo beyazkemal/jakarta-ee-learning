@@ -16,9 +16,9 @@ jobs:
           password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
-      - run: ls -ann
-      - run: echo 'Hello Test!'
-      - run: mvn test
+      - run:
+          name: Maven Test
+          command: mvn test
 
   build:
     docker:
@@ -28,7 +28,9 @@ jobs:
           password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
-      - run: mvn -Dmaven.test.skip=true package
+      - run:
+          name: Build WAR File
+          command: mvn -Dmaven.test.skip=true package
       - persist_to_workspace:
          root: ./
          paths:
@@ -40,13 +42,12 @@ jobs:
       - checkout
       - attach_workspace:
           at: ./
-      - run: ls -ann
-      - run: cd target && ls -ann
-      - run: cd ..
       - setup_remote_docker
-      - run: docker build -t $IMAGE_NAME:latest .
       - run:
-          name: Archive Docker image
+          name: Build Docker Image
+          command: docker build -t $IMAGE_NAME:latest .
+      - run:
+          name: Archive Docker Image
           command: docker save -o image.tar $IMAGE_NAME
       - persist_to_workspace:
           root: .
@@ -57,7 +58,12 @@ jobs:
     executor: docker-publisher
     steps:
       - checkout
+      - attach_workspace:
+          at: ./
       - run: ls -ann
+      - run:
+          name: Push Docker Image to Hub
+          command: docker push beyazkemal/jakarta-ee-learning:latest
 
 workflows:
   version: 2
