@@ -1,5 +1,12 @@
 version: 2.1
 
+executors:
+  docker-publisher:
+    environment:
+      IMAGE_NAME: beyazkemal/jakarta-ee-learning
+    docker:
+      - image: circleci/buildpack-deps:stretch
+
 jobs:
   test:
     docker:
@@ -21,10 +28,28 @@ jobs:
           password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
-      - run: ls -ann
-      - run: echo 'Hello!'
       - run: mvn -Dmaven.test.skip=true package
+      - persist_to_workspace:
+         root: ./
+         paths:
+           - target/
 
+  build-docker-image:
+    executor: docker-publisher
+    steps:
+      - checkout
+      - setup_remote_docker
+      - attach_workspace:
+          at: ./target
+      - run: ls -ann
+      - run: docker build -t $IMAGE_NAME:latest .
+      - run:
+          name: Archive Docker image
+          command: docker save -o image.tar $IMAGE_NAME
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./image.tar
 
 workflows:
   version: 2
@@ -35,3 +60,9 @@ workflows:
       - test:
           requires:
             - build
+      - build-docker-image:
+          requires:
+            - test
+      - push-docker-hub:
+          requires:
+            - build-docker-image
