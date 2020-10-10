@@ -1,29 +1,29 @@
-version: 2.0
+version: 2.1
 
 jobs:
   test:
     docker:
-      - image: circleci/openjdk:stretch
+      - image: adoptopenjdk/maven-openjdk11
         auth:
           username: $DOCKERHUB_USER
-          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+          password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
       - run: ls -ann
       - run: echo 'Hello Test!'
-      - run: sudo ./mvnw test
+      - run: mvn test
 
   build:
     docker:
-      - image: circleci/openjdk:stretch
+      - image: adoptopenjdk/maven-openjdk11
         auth:
           username: $DOCKERHUB_USER
-          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+          password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
       - run: ls -ann
       - run: echo 'Hello!'
-      - run: ./mvnw -Dmaven.test.skip=true package
+      - run: mvn -Dmaven.test.skip=true package
 
 
 workflows:
