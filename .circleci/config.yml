@@ -32,7 +32,7 @@ jobs:
       - persist_to_workspace:
          root: ./
          paths:
-           - target/*.jar
+           - target/jakarta-ee-learning.war
 
   build-docker-image:
     executor: docker-publisher
