@@ -53,8 +53,6 @@ jobs:
 
   push-docker-hub:
     executor: docker-publisher
-    context:
-      - Docker
     steps:
       - checkout
       - attach_workspace:
@@ -80,5 +78,7 @@ workflows:
           requires:
             - test
       - push-docker-hub:
+          context:
+            - Docker
           requires:
             - build-docker-image
